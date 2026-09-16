@@ -15,7 +15,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Check if step succeeded
     assert!(sess.authenticated());
 
-    let commands=["sh ip int br","sh int stats"];
+    let commands=["sh ip int br","sh ip int br"];
     for cmd in commands {
 
         // 3. Execute command via channel
