@@ -1,5 +1,5 @@
 !HC!
 sh ip int br
-sh ip int stats
+sh int stats
 
 !!

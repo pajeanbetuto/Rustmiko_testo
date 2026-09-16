@@ -16,7 +16,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     assert!(sess.authenticated());
 
     let commands=["sh ip int br",
-                          "sh ip int stats",
+                          "sh int stats",
                          ];
     for cmd in commands {
 
