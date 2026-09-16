@@ -1,35 +1,18 @@
-use std::io::prelude::*;
-use std::net::TcpStream;
-use ssh2::Session;
+use omnisor::{DeviceSession, CiscoVariant};
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 1. Establish TCP connection
-    let tcp = TcpStream::connect("192.168.1.1:22")?;
-    let mut sess = Session::new()?;
-    sess.set_tcp_stream(tcp);
-    sess.handshake()?;
+#[tokio::main]
+async fn main() -> Result<(), omnisor::Error> {
+    // Connexion à un commutateur/routeur Cisco (IOS)
+    let mut session = DeviceSession::connect(
+        ("192.168.1.1", 22),
+        "controller",
+        "controller123@",
+        CiscoVariant::Ios, // Utilisez IosLegacy pour les anciens matériels
+    ).await?;
 
-    // 2. Authenticate
-    sess.userauth_password("controller", "controller123@")?;
+    // Envoyer une commande et récupérer le résultat
+    let output = session.send_command("show ip interface brief").await?;
+    println!("{:?}", output);
 
-    // Check if step succeeded
-    assert!(sess.authenticated());
-
-    let commands=["sh ip int br","sh ip int br"];
-    for cmd in commands {
-
-        // 3. Execute command via channel
-        let mut channel = sess.channel_session()?;
-        channel.exec(cmd)?;
-
-        println!("Command '{}' sent", cmd);
-
-        let mut output = String::new();
-        channel.read_to_string(&mut output)?;
-        channel.wait_close()?;
-
-        println!("Output:\n{}", output);
-
-    }
     Ok(())
 }
