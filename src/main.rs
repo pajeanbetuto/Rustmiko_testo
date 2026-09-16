@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     sess.handshake()?;
 
     // 2. Authenticate
-    sess.userauth_password("controller", "Controller123@")?;
+    sess.userauth_password("controller", "controller123@")?;
 
     // Check if step succeeded
     assert!(sess.authenticated());
