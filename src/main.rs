@@ -22,6 +22,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let mut channel = sess.channel_session()?;
         channel.exec(cmd)?;
 
+        println!("Command '{}' sent", cmd);
+
         let mut output = String::new();
         channel.read_to_string(&mut output)?;
         channel.wait_close()?;
