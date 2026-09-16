@@ -1,7 +1,7 @@
 use rustmiko::devices::cisco::CiscoSSH;
 
 fn main() -> anyhow::Result<()> {
-    let mut cisco = match CiscoSSH::connect("192.168.1.1:23", "controller", "controller123@") {
+    let mut cisco = match CiscoSSH::connect("192.168.1.1:22", "controller", "controller123@") {
         Ok(cisco) => {
             println!("Connected successfully");
             cisco
