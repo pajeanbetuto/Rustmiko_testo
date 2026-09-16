@@ -15,14 +15,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Check if step succeeded
     assert!(sess.authenticated());
 
-    // 3. Execute command via channel
-    let mut channel = sess.channel_session()?;
-    channel.exec("show ip interface brief")?;
+    let commands=["sh ip int br",
+                          "sh ip int stats",
+                         ];
+    for cmd in commands {
 
-    let mut output = String::new();
-    channel.read_to_string(&mut output)?;
-    channel.wait_close()?;
+        // 3. Execute command via channel
+        let mut channel = sess.channel_session()?;
+        channel.exec(cmd)?;
 
-    println!("Output:\n{}", output);
+        let mut output = String::new();
+        channel.read_to_string(&mut output)?;
+        channel.wait_close()?;
+
+        println!("Output:\n{}", output);
+
+    }
     Ok(())
 }
