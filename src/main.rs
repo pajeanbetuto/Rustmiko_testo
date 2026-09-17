@@ -51,6 +51,7 @@ fn exec_remote_command(sess: &Session, cmd: &str) -> anyhow::Result<String> {
 fn main() -> anyhow::Result<()> {
     let commands = vec![
         "sh ip int br",
+        "show hosts"
     ];
 
     let results = send_commands(
