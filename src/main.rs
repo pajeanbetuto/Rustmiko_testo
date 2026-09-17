@@ -57,8 +57,8 @@ fn main() -> anyhow::Result<()> {
 
     let results = send_commands(
         "192.168.1.1:22",
-        "pajeanbe",
-        "G3od&sIc189)",
+        "controller",
+        "controller123@",
         &commands,
     )?;
 
