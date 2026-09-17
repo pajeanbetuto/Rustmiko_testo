@@ -17,7 +17,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     channel.shell()?;
 
     // Send the command
-    channel.write_all(b"show ip interface brief\n")?;
+    channel.write_all(b"sh version\n")?;
     channel.flush()?;
 
     // Read loop capturing chunks until the prompt appears or timeout triggers
