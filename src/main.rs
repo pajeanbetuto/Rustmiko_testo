@@ -17,7 +17,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     channel.shell()?;
 
     // Send the command
-    channel.write_all(b"sh mac address\n")?;
+    channel.write_all(b"sh int stats\n")?;
     channel.flush()?;
 
     // Read loop capturing chunks until the prompt appears or timeout triggers
