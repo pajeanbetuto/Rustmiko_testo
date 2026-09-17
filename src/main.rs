@@ -16,7 +16,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut channel = sess.channel_session()?;
 
     // 4. Send the command to the Cisco node
-    channel.exec("show version")?;
+    channel.exec("show ip int br")?;
 
     // 5. Read the output from the node
     let mut s = String::new();
