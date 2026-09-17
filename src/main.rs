@@ -10,7 +10,7 @@ fn main() {
     sess.userauth_password("controller", "controller123@")
         .unwrap();
     let mut channel = sess.channel_session().unwrap();
-    channel.exec("show version").unwrap();
+    channel.exec("show ip int br").unwrap();
 
     let mut s = String::new();
     channel.read_to_string(&mut s).unwrap();
