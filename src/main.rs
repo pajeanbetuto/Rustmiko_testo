@@ -72,7 +72,7 @@ fn main() -> anyhow::Result<()> {
     ];
 
     let results = send_commands(
-        "192.168.1.1",
+        "192.168.1.1:22",
         "controller",
         "controller123@",
         &commands,
