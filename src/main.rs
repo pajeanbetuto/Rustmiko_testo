@@ -1,29 +1,36 @@
 use ssh2::Session;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::net::TcpStream;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 1. Connect to the Cisco node's TCP port 22 (SSH)
+    // 1. Connect to the Cisco node via TCP and authenticate
     let tcp = TcpStream::connect("192.168.1.1:22")?;
     let mut sess = Session::new()?;
     sess.set_tcp_stream(tcp);
     sess.handshake()?;
-
-    // 2. Authenticate with username and password
     sess.userauth_password("controller", "controller123@")?;
 
-    // 3. Open an SSH channel
+    // 2. Open an SSH channel and request a PTY shell
     let mut channel = sess.channel_session()?;
+    channel.request_pty("vt100", None, None)?;
+    channel.shell()?;
 
-    // 4. Send the command to the Cisco node
-    channel.exec("show ip int br")?;
+    // 3. Send the command to the interactive shell
+    // Note: Including a newline/carriage return is necessary to execute the command
+    channel.write_all(b"show ip interface brief\n")?;
+    channel.flush()?;
 
-    // 5. Read the output from the node
-    let mut s = String::new();
-    channel.read_to_string(&mut s)?;
-    print!("{}", s);
+    // 4. Read the output from the channel
+    let mut output = String::new();
 
-    // 6. Close the channel cleanly
+    // Give the device a brief moment to respond or read until buffer blocks/completes
+    // (A more robust production solution would handle reading chunks in a loop until the prompt returns)
+    let _ = channel.read_to_string(&mut output);
+
+    print!("{}", output);
+
+    // 5. Clean up
+    channel.send_eof()?;
     channel.wait_close()?;
 
     Ok(())
