@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     sess.handshake()?;
 
     // 2. Authenticate with username and password
-    sess.userauth_password("admin", "your_password")?;
+    sess.userauth_password("controller", "controller123@")?;
 
     // 3. Open an SSH channel
     let mut channel = sess.channel_session()?;
